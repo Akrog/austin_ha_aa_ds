@@ -48,7 +48,7 @@ Austin:
 
 Tokyo:
 
-- Slides: .small[https://docs.google.com/presentation/d/1CTKrdwI_zoToQqxEPzdgdLyl-1UQHrr0PRrMPT8jbDM]
+- Slides: .small[http://akrog.github.io/cinder/20151029%20-%20tokyo_ha_aa_ds.pdf]
 - Etherpad: .small[https://etherpad.openstack.org/p/mitaka-cinder-cvol-aa]
 
 ---
@@ -86,6 +86,69 @@ Didn't diverge from approach agreed in Tokyo:
 - API returns Generic errors (no loops)
 
 .mildgreen[Status: Patches need reviewing and at least 1 needs to be redone]
+
+---
+
+# Job Distribution (I) - Mechanism
+
+.center.medium[![](assets/job_distribution.svg)]
+
+---
+
+# Job Distribution (II) - Implementation (I)
+
+- Cluster grouping is done by host (imagine it as a reverse proxy)
+- Add node_name configuration option
+- Add service_nodes table
+    * Move fields from service table:
+        + rpc_version
+        + object_version
+        + report_count
+        + heartbeat
+    * Moves require 2 releases (rolling upgrades)
+        + In N &#10142; Compatibility code aggregates data from both tables
+        + In O &#10142; Remove compatibility code and fields from service
+- New mechanism for determining when service is up
+- Disabling still at service level &#10142; Signals to drain node
+---
+
+# Job Distribution (III) - Implementation (II)
+
+- New API microversion for Service list:
+    * Returns service nodes summary with
+        + Number of nodes under the host
+        + Number of nodes that are down
+        + Last heartbeat from the nodes
+    * Optionally can return service nodes summary list 
+- New "service_nodes" API endpoint:
+    * Summary list
+    * Detailed list
+    * Show
+
+<br>
+.mildgreen[Status: Server and Client patches up for review]
+
+---
+
+# Job Distribution (IV) - Diverge from Tokyo
+
+- Approach proposed in Tokyo:
+    * Add cluster configuration option
+    * Use cluster as message topic key
+    * Change everywhere "host" with "cluster"
+
+--
+
+- Reasons for the change:
+    * Complexity:
+        + Rename of "host" with "cluster" &#10142; 12K LOC - High probability of introducing bugs
+        + Multiple releases needed
+        + Compatibility code for all APIs
+    * Inconsistency:
+        + In documentation
+        + In existing APIs &#10142; Say host, but is actually cluster
+        + Between configuration and APIs
+    * Clean backports impossible with previous release
 
 ---
 
