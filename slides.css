@@ -16,7 +16,8 @@ h4 { margin: 15px 0px 15px 0px; }
 	position: absolute;
 	bottom: 3em;
 }
-p, ul, li { line-height: 1.10em; margin: 15px 0px 15px 0px; }
+p, ul, li not(.min_line_height) { line-height: 1.10em; }
+p, ul, li { margin: 15px 0px 15px 0px; }
 li li {
     font-size: 26px !important;
     line-height: 1em !important;
@@ -30,7 +31,12 @@ li li li {
 .white { color: #ffffff !important; }
 .large { font-size: 2em; }
 .small { font-size: 18px !important; }
+.tiny { font-size: 15px !important; }
 .medium { font-size: 26px !important; }
+
+.min_line_height { line-height: 0.4em !important; }
+.no_margin { margin: 0px 0px 0px 0px !important; }
+
 a, a > code {
 	color: #117bb6;
 	text-decoration: none;
@@ -47,7 +53,6 @@ code {
 
 /* Two-column layout */
 .left-column {
-	color: #777;
 	width: 50%;
 	height: 92%;
 	float: left;

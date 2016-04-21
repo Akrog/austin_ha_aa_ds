@@ -181,15 +181,17 @@ Didn't diverge from approach agreed in Tokyo:
 - Cleans same resources in the same way as we do now
 - Introduce concept of cleanable resources (OVOs)
     * Resources: Volumes, Snapshots, Backups
-    * Not all operations require cleanup &#10142; Object says if is cleanable:
-        + For specific object version
-        + For specific status
+    * Not all operations require cleanup &#10142; Defined on OVO depends on:
+        + Object version
+        + Current status
 - New "*worker*" table to track in flight cleanable resources
-- On RPC call entry is created
-- On reception by c-vol and c-bak
-    * Update DB entry with worker node
-    * Create new entry if not called from the API
-- Reset status API removes entry
+    - On RPC call entry is created
+    - On reception by c-vol and c-bak
+        * Update DB entry with worker node
+        * Create new entry if not called from the API
+    - Removing entries from DB on
+        * Exit manage method if resource status doesn't match worker
+        * Reset status API
 
 ---
 
@@ -238,7 +240,62 @@ Didn't diverge from approach agreed in Tokyo:
 
 template: section_layout
 
-# <center>PATCHES READY FOR REVIEW</center>
+# <center>Should try to merge early</center>
+
+.medium[
+- Make sure no regressions are introduced to Active-Passive
+- Validate Active-Active
+]
+
+## <center>Patches ready for review</center>
+
+.left-column.tiny[
+API Races:
+
+.min_line_height[
+- [Add ordering possibilities to conditional update](https://review.openstack.org/231936)
+- [Remove API races on extend and volume_upload_image](https://review.openstack.org/216378)
+- [Remove API races from migrate and retype](https://review.openstack.org/221442)
+- [Removed potential races from volume update method](https://review.openstack.org/277588)
+- [Remove API races from consistency groups](https://review.openstack.org/259429)
+]
+
+Job Distribution
+
+.min_line_height[
+- [Refactor sqlalchemy service methods](https://review.openstack.org/286598)
+- [Add service_nodes table and related methods](https://review.openstack.org/286599)
+- [Add ServiceNode Versioned Object](https://review.openstack.org/286600)
+- [Change Job Distribution for HA A-A](https://review.openstack.org/286601)
+- [Add new API job distribution features](https://review.openstack.org/294263)
+- [Cinderclient: Allow getting node summary info for services](https://review.openstack.org/304234)
+- [Cinderclient: Add service node commands](https://review.openstack.org/304235)
+]
+]
+
+.right-column.tiny[
+Cleanup
+
+.min_line_height[
+- [Add workers table](https://review.openstack.org/303018)
+- [Add worker's DB operations](https://review.openstack.org/303019)
+- [Add cleanable base object and cleanup request VO](https://review.openstack.org/303020)
+- [Make c-vol use workers table for cleanup](https://review.openstack.org/303021)
+- [Allow triggering cleanup from API](https://review.openstack.org/303022)
+- [Make c-bak use workers table for cleanup](https://review.openstack.org/303023)
+- [Add auto cleanup mechanism](https://review.openstack.org/303024)
+- [Cinderclient: Add service node cleanup command](https://review.openstack.org/304236)
+- [Cinderclient: Add Backup to cleanable resource types](https://review.openstack.org/304237)
+- [Cinderclient: Add service node auto-cleanup](https://review.openstack.org/304238)
+]
+
+Tooz Locks
+
+.min_line_height[
+- [Start/Stop coordinator with Services](https://review.openstack.org/263313)
+]
+
+]
 
 ---
 
