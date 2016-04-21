@@ -53,7 +53,7 @@ Tokyo:
 
 ---
 
-# Status Update:
+# Status Overview:
 
 - [Support HA Active/Active:](https://review.openstack.org/232599) Specs&#10003; · Code: 80% done (25% merged) 
 
@@ -69,6 +69,23 @@ Tokyo:
   Different approach needed, going back to the drawing board
 
 - Optional: [Remove Manager Local Locks:](https://review.openstack.org/237602) Specs&#10067; · 0% done
+
+---
+
+# API Races
+
+Didn't diverge from approach agreed in Tokyo:
+
+- Compare-and-swap was used
+- Generic conditional update mechanism added to OVOs
+    * Base functionality merged
+    * Merged patches using base functionality
+    * Some patches required changes to SQLAlchemy
+        - SQLAlchemy has been updated
+        - Now patches can be merged
+- API returns Generic errors (no loops)
+
+.mildgreen[Status: Patches need reviewing and at least 1 needs to be redone]
 
 ---
 
