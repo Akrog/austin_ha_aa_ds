@@ -256,6 +256,55 @@ class: center, middle, white, no_page_footer
 
 ---
 
+# Issues with Current implementation
+
+.left-column.big[![](assets/cleanup_issues_1.svg)]
+.right-column[
+.medium[
+- Cases:
+    * No node
+        + Message doesn't reach broker
+        + Broker dies and loses request
+    * No worker entry
+- Solutions
+    * Manual:
+        + Implement worker list with filters
+        + Change status manually
+    * Add to cleanup mechanism
+        + Timeout config option
+        + Option A: Cleanup workers without node
+        + Option B:
+            - Don't add entry on RPC request
+            - Clean cleanable state and no worker
+]
+]
+
+---
+
+# Issues with Current implementation (II)
+
+.left-column.big[![](assets/cleanup_issues_2.svg)]
+.right-column[
+.medium[
+- Cleaning node dies during cleanup
+- Auto cleanup won't clean it again
+- Solutions
+    * On node clean request reception:
+        + Change node in entries to current node
+        + Check worker entries before changing
+        + Complex query or one for each table
+    * Add mechanism
+        + Scheduler marks cleanup as requested
+        + Nodes report cleanup reception
+        + Scheduler marks cleanup as initiated
+        + Nodes report completion
+        + Scheduler marks cleanup as initiated
+        + When node down, retry cleanup jobs
+]
+]
+
+---
+
 template: section_layout
 
 # <center>Should try to merge early</center>
