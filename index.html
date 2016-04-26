@@ -304,6 +304,66 @@ class: center, middle, white, no_page_footer
 ]
 
 ---
+template: section_layout
+class: center, middle, white, no_page_footer
+
+**.big[Auto fencing]**
+
+---
+
+# Disruption Scenarios
+
+- Message broker lost &#10142; No big deal
+    * We cannot receive new jobs
+    * We cannot respond to sync requests
+- DB connection lost
+    * No heartbeats &#10142; Scheduler will consider it as down
+    * Cannot update status or remove cleanup work
+    * Will proceed with cleanups &#10142; Only if auto cleanup is enabled
+- DLM lost
+    * Locks will be freed
+    * Multiple nodes will access resource
+    * Defeats the purpose of having locks
+
+---
+
+# Options
+
+- Requires more study
+- Stop all threads and don't accept RPC requests
+    * Non trivial
+    * Margin for recovery before cleanup
+        + On DB loss and then recovery
+            - Without auto cleanup &#10142; OK
+            - With auto cleanup &#10142; OK if time < cleanup time
+        + On locks it would depend on the DLM &#10142; Not nice
+    * On disruption resolution &#10142; Restart mechanism
+
+- Ignore the issue
+    * Locks
+        + Deletion of volume that is being used for creation
+            - Worst case corruption?
+            - If we stop creating volume is useless anyway
+
+---
+template: section_layout
+class: center, middle, white, no_page_footer
+
+**.big[HA A-A without a DLM]**
+
+---
+
+# No DLM for manager locks
+
+- Only for the manager locks
+- For when drivers don't require a DLM
+- Use workers table for locking
+    * New cleanup resource Type: *Lock*
+    * Store the resource ID
+    * As status store the operation
+- Alternative &#10142; Configure Tooz to use DB locks
+
+---
 
 template: section_layout
 
