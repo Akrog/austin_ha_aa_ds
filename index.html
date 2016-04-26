@@ -101,6 +101,26 @@ Didn't diverge from approach agreed in Tokyo:
 template: section_layout
 class: center, middle, white, no_page_footer
 
+**.big[Distributed Locks]**
+
+---
+
+# DLM
+
+- DLM can now be a hard requirement on any OpenStack project
+- Replace Oslo sync mechanism with Tooz
+- File locks still default locks
+- Allow distributed locking for:
+    * Manager locks
+    * Driver locks
+- Drivers can still use Oslo file locks
+    * Mutual exclusion only on node
+
+---
+
+template: section_layout
+class: center, middle, white, no_page_footer
+
 **.big[Job Distribution]**
 
 ---
