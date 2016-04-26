@@ -33,6 +33,7 @@ li li li {
 .small { font-size: 18px !important; }
 .tiny { font-size: 15px !important; }
 .medium { font-size: 26px !important; }
+.big { font-size: 75px !important; }
 
 .min_line_height { line-height: 0.4em !important; }
 .no_margin { margin: 0px 0px 0px 0px !important; }

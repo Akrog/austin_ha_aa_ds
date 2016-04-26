@@ -75,6 +75,12 @@ Tokyo:
 *<br>.red[NOTE: We are also talking about Backup Nodes]*
 
 ---
+template: section_layout
+class: center, middle, white, no_page_footer
+
+**.big[API Races]**
+
+---
 
 # API Races
 
@@ -92,14 +98,20 @@ Didn't diverge from approach agreed in Tokyo:
 .mildgreen[Status: Patches need reviewing and at least 1 needs to be redone]
 
 ---
+template: section_layout
+class: center, middle, white, no_page_footer
 
-# Job Distribution - Mechanism
+**.big[Job Distribution]**
+
+---
+
+# Mechanism
 
 .center.medium[![](assets/job_distribution.svg)]
 
 ---
 
-# Job Distribution (II) - Implementation
+# Implementation
 
 - Cluster grouping is done by host (imagine it as a reverse proxy)
 - Add *node_name* configuration option
@@ -116,7 +128,7 @@ Didn't diverge from approach agreed in Tokyo:
 - Disabling still at service level &#10142; Signals to drain node
 ---
 
-# Job Distribution (III) - Implementation (II)
+# Implementation (II)
 
 - New API microversion for Service list:
     * Returns service ID
@@ -135,7 +147,7 @@ Didn't diverge from approach agreed in Tokyo:
 
 ---
 
-# Job Distribution (IV) - Diverge from Tokyo
+# Diverge from Tokyo
 
 - Approach proposed in Tokyo:
     * Add cluster configuration option
@@ -156,8 +168,14 @@ Didn't diverge from approach agreed in Tokyo:
     * Clean backports impossible with previous release
 
 ---
+template: section_layout
+class: center, middle, white, no_page_footer
 
-# Resource Cleanup - Mechanism
+**.big[Resource Cleanup]**
+
+---
+
+# Mechanism
 
 - Problem: Know which resources must be cleaned:
     * Host in resource is not enough
@@ -176,7 +194,7 @@ Didn't diverge from approach agreed in Tokyo:
 
 ---
 
-# Resource Cleanup (II) - Implementation
+# Implementation
 
 - Cleans same resources in the same way as we do now
 - Introduce concept of cleanable resources (OVOs)
@@ -195,7 +213,7 @@ Didn't diverge from approach agreed in Tokyo:
 
 ---
 
-# Resource Cleanup (III) - Implementation (II)
+# Implementation (II)
 
 - Cleanup mechanism:
     * c-vol & c-back nodes on restart
@@ -217,7 +235,7 @@ Didn't diverge from approach agreed in Tokyo:
 
 ---
 
-# Resource Cleanup (IV) - Diverge from Tokyo
+# Diverge from Tokyo
 
 - Approach proposed in Tokyo:
     * All main manager methods create DB entries
